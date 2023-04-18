@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new User via Restful API</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous">
+    </script>
+</head>
+<body>
+  <form method="POST" name="frmUser">
+      <input type="text" name="username" id="username"
+           placeholder="Enter your Username">
+      <input type="text" name="email" id="email"
+             placeholder="Enter your email">
+      <input type="password" name="password" id="password"
+      placeholder="Enter your password by Bcryption">
+      <button id="btnAdd">Add new User</button>
+  </form>
+    <script>
+        $(document).ready(function(){
+            let data = {};
+            $("#btnAdd").click(function(e){
+                e.preventDefault();
+               data["username"] = $("#username").val();
+               data["email"]    = $("#email").val();
+               data["password"] = $("#password").val();
+               const dataSend = JSON.stringify(data);
+               console.log(dataSend);
+               $.ajax({
+                   url: "/api/user/add",
+                   type: "POST",
+                   dataType: "json",
+                   data: dataSend,
+                   contentType: "application/json",
+                   beforeSend: function(){
+                       $(this).html("<img src='https://acegif.com/wp-content/uploads/loading-23.gif' width='30px' />");
+                   },
+                   success: function(res){
+                       console.log(res);
+                       if(res.status=='ERROR'){
+                           let result = res.result;
+                           result.forEach((item) => {
+                               let field = item.field;
+                               let message = item.defaultMessage;
+                               $("#"+field).next("span").remove();
+                               $("#"+field).after("<span class='error'>"+message+"</span>");
+                           });
+                       }
+                       if(res.status=="SUCCESS"){
+                           window.location.href="listuser";
+                       }
+                       //return false;
+                   }
+               });
+            });
+        });
+    </script>
+</body>
+</html>

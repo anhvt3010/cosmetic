@@ -1,0 +1,73 @@
+<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Custom styles for this template-->
+<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}">
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+  <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+    For more information about DataTables, please visit the
+    <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">List Products</h6>
+        <form th:action="@{/admin/products/create}" method="get">
+            <button type="submit" class="btn btn-success">New Product</button>
+        </form>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Product name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+<!--            <th>Created_at</th>-->
+<!--            <th>Description</th>-->
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tfoot>
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Product name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+<!--            <th>Created_at</th>-->
+<!--            <th>Description</th>-->
+            <th>Status</th>
+          </tr>
+          </tfoot>
+          <tbody>
+          <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td style="width: 100px; height: 130px;">
+<!--              th:src="@{/image/__${product.getImage()}__}"-->
+              <img th:src="@{/img/product/__${product.getImage()}__}"  alt="My Image" height="120"/>
+            </td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.quantity}"></td>
+<!--            <td th:text="${product.created_at}"></td>-->
+<!--            <td th:text="${product.description}"></td>-->
+              <td th:text="${product.status == 1 ? 'active' : 'unactive'}"></td>
+            <td><a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a></td>
+            <!--    <td><a th:href="@{'/admin/user/delete/' + ${user.getId()}}">Delete</a></td>-->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

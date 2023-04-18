@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+  <meta charset="UTF-8">
+  <title>Add new Product</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</head>
+<body>
+<form name="frmProduct" th:object="${product}">
+  <div class="product">
+    <div class="product-header">Add new Product</div>
+    <div class="product-content">
+      <div class="row">
+        <div class="row">
+          <label>Code</label>
+          <input type="text" name="id" id="id" placeholder="Enter Product Name">
+        </div>
+        <label>Category</label>
+        <select name="category">
+          <option th:each="category: ${Categories}" th:value="${category.getId()}" th:text="${category.getName()}">
+            Category
+          </option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter Product Name">
+      </div>
+      <div class="row">
+        <label>Price</label>
+        <input type="text" name="price" id="price" placeholder="Enter Product Price">
+      </div>
+      <div class="row">
+        <label>Image</label>
+        <input type="text" name="image" id="image" placeholder="Enter Product Price">
+      </div>
+      <div class="row">
+        <label>Description</label>
+        <input type="text" name="description" id="description" placeholder="Enter Product Price">
+      </div>
+      <div class="row">
+        <input type="submit" name="btnAdd" id="btnAdd" value="Add new Product">
+      </div>
+    </div>
+  </div>
+</form>
+<script>
+  $(document).ready(function () {
+    $("#btnAdd").click(function (e) {
+      e.preventDefault();
+      let catId = $("select[name='category']").val();
+      let data = [];
+      let dataPost = $("input[type='text']").serilizedArray();
+      console.log(dataPost);
+      dataPost.forEach((item) => {
+        data[item.name] = data[item.value];
+      });
+      let dataSend = JSON.stringify(data);
+      console.log(data);
+      $.ajax({
+        url: "/api/product/add?catID=" + catId,
+        type: "POST",
+        data: dataSend,
+        dataType: "json",
+        beforeSend: function () {
+          $(this).text("Processing...");
+        },
+        success: function (rs) {
+          if (rs.status === 'ERROR') {
+            let results = rs.result;
+            rs.result.forEach((item) => {
+              let idField = item.field;
+              let messageError = item.defaultMessage;
+              $("#" + idField).after("<span class='error'>" + messageError + "</span>");
+            });
+          }
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="card-wrapper">
+    <form th:action="@{admin/category/edit}" method="post" th:object="${category}" novalidate="novalidate">
+        <div class = "product-content">
+            <div class="row mb-3">
+                <div class="col-auto">
+                    <label class="col-form-label">Name:</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" th:field="*{name}"
+                           id="name" disabled="disabled">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-auto">
+                    <label class="form-label" for="pname">Parent Category:</label>
+                </div>
+                <div class="col">
+                    <select class="form-control" id="pname" disabled="disabled">
+                        <option th:each="category: ${pCategories}"
+                                th:value="${category.getParent_id()}"
+                                th:text="${category.getName()}"
+                                th:selected="${category.getId().longValue() == parentCategory.longValue()}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-auto">
+                    <label class="col-form-label">Status:</label>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" th:field="*{status}">
+
+                    <label class="toggle">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                        <span class="labels" data-on="ON" data-off="OFF"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col mr-auto">
+                    <button id="enable-fields-button" class="btn btn-success">EDIT</button>
+                </div>
+                <div class="col-auto">
+                    <button id="fields-button" class="btn btn-danger">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+  </div>
+</div>
+
+<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}">
+<link rel="stylesheet" th:href="@{/css/product/product-edit.css}">
+<link rel="stylesheet" th:href="@{/css/toggle-button.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"/>
+<script th:src="@{/js/product/product-edit.js}"></script>
+<script>
+  const name = document.querySelector('#name');
+  const pname = document.querySelector('#pname');
+
+  const enableFieldsButton = document.querySelector('#enable-fields-button');
+
+  enableFieldsButton.addEventListener('click', enableFields);
+
+  function enableFields() {
+    name.removeAttribute('disabled');
+    pname.removeAttribute('disabled');
+
+    enableFieldsButton.setAttribute('disabled', true);
+  }
+</script>

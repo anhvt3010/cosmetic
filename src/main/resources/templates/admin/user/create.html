@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new User</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<form th:object="${user}" th:action="@{/admin/user/save}" method="post">
+    <div class="container">
+        <div class="row">
+            <label for="userName">User Name</label>
+            <input type="text" th:field="*{username}" id="userName"/>
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></p>
+        </div>
+        <div class="row">
+            <label for="userEmail">Email</label>
+            <input type="text" th:field="*{email}" id="userEmail"/>
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></p>
+        </div>
+        <div class="row">
+            <label for="password">Password</label>
+            <input type="password" th:field="*{password}" id="password"/>
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></p>
+        </div>
+        <input type="submit" value="add new User"/>
+    </div>
+</form>
+</body>
+</html>
