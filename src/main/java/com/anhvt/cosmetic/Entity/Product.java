@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -49,5 +50,8 @@ public class Product {
 
     @Column(name="status")
     private Byte status;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Galery> galeryList;
 
 }

@@ -25,4 +25,7 @@ public class Feedback {
     private String email;
     @Column(name="content")
     private String content;
+    @Column(name="created_at")
+    private String created;
+
 }

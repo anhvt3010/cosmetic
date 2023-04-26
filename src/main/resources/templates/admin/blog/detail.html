@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="card-wrapper">
+        <form th:action="@{/admin/blogs/edit/{id}(id=${blog.id})}" method="post" th:object="${blog}" novalidate="novalidate">
+            <div class="card">
+                <!-- card left -->
+                <div class="product-imgs">
+                    <div class="img-display">
+                        <div class="img-showcase">
+                            <img th:src="@{/img/blog/__${blog.getImage()}__}">
+<!--                            <tr th:each="galery : ${galeries}">-->
+<!--                                <td>-->
+<!--                                    <img th:src="@{/img/blog/__${galery.getThumbnail()}__}"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                        </div>
+                    </div>
+                </div>
+                <!-- card right -->
+                <div class="product-content">
+                    <div class="row mb-3">
+                        <div class="col-auto">
+                            <label for="title" class="form-label">Title:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" id="title"
+                                   th:field="*{title}" disabled="disabled">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="content" class="form-label">Content:</label>
+                        <textarea rows="7"  class="form-control" id="content"
+                                  th:field="*{content}" disabled="disabled"></textarea>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-auto">
+                            <label class="col-form-label">Created At:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" th:field="*{created_at}" disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-auto">
+                            <label class="col-form-label">Status:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" th:field="*{status}">
+
+                            <label class="toggle">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                                <span class="labels" data-on="ON" data-off="OFF"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col mr-auto">
+                            <button id="enable-fields-button" class="btn btn-success">EDIT</button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" id="fields-button" class="btn btn-danger">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}">
+<link rel="stylesheet" th:href="@{/css/product/product-edit.css}">
+<!--<link rel="stylesheet" th:href="@{/css/toggle-button.css}">-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"/>
+<script th:src="@{/js/product/product-edit.js}"></script>
+<script>
+    const title = document.querySelector('#title');
+    const content = document.querySelector('#content');
+    const enableFieldsButton = document.querySelector('#enable-fields-button');
+    enableFieldsButton.addEventListener('click', enableFields);
+
+    function enableFields() {
+        title.removeAttribute('disabled');
+        content.removeAttribute('disabled');
+        enableFieldsButton.setAttribute('disabled', true);
+    }
+</script>

@@ -97,7 +97,6 @@ public class ProductController {
         if (product.isPresent()){
             modelAndView.addObject("product", product);
             String time = Convert.TimestampToDate(product.get().getCreated_at());
-
             modelAndView.addObject("time", time);
 
             Iterable<Category> Categories = categoryService.findByChild();

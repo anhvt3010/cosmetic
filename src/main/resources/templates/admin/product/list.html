@@ -1,73 +1,150 @@
-<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-      rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- Custom styles for this template-->
-<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}">
-<div class="container-fluid">
-  <!-- Page Heading -->
-  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-  <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-    For more information about DataTables, please visit the
-    <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <!-- DataTales Example -->
-  <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">List Products</h6>
-        <form th:action="@{/admin/products/create}" method="get">
-            <button type="submit" class="btn btn-success">New Product</button>
-        </form>
+    <title>AnhTuan - Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+    <link rel="shortcut icon" href="//cdn.perfmatters.io/favicon.ico" type="image/x-icon" />
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/css/sb-admin-2.min.css}">
+
+
+</head>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="/admin/fragments/_sidebar :: sidebar">...</div>
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Topbar -->
+        <div th:replace="/admin/fragments/_navbar :: navbar">...</div>
+        <!-- End of Topbar -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+            <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                For more information about DataTables, please visit the
+                <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">List Products</h6>
+                    <form th:action="@{/admin/products/create}" method="get">
+                        <button type="submit" class="btn btn-success">New Product</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Product name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <!--            <th>Created_at</th>-->
+                                <!--            <th>Description</th>-->
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Product name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <!--            <th>Created_at</th>-->
+                                <!--            <th>Description</th>-->
+                                <th>Status</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.id}"></td>
+                                <td style="width: 100px; height: 130px;">
+                                    <!--              th:src="@{/image/__${product.getImage()}__}"-->
+                                    <img th:src="@{/img/product/__${product.getImage()}__}"  alt="My Image" height="120"/>
+                                </td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.quantity}"></td>
+                                <!--            <td th:text="${product.created_at}"></td>-->
+                                <!--            <td th:text="${product.description}"></td>-->
+                                <td th:text="${product.status == 1 ? 'active' : 'unactive'}"></td>
+                                <td><a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a></td>
+                                <!--    <td><a th:href="@{'/admin/user/delete/' + ${user.getId()}}">Delete</a></td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
     </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Image</th>
-            <th>Product name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-<!--            <th>Created_at</th>-->
-<!--            <th>Description</th>-->
-            <th>Status</th>
-          </tr>
-          </thead>
-          <tfoot>
-          <tr>
-            <th>ID</th>
-            <th>Image</th>
-            <th>Product name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-<!--            <th>Created_at</th>-->
-<!--            <th>Description</th>-->
-            <th>Status</th>
-          </tr>
-          </tfoot>
-          <tbody>
-          <tr th:each="product : ${products}">
-            <td th:text="${product.id}"></td>
-            <td style="width: 100px; height: 130px;">
-<!--              th:src="@{/image/__${product.getImage()}__}"-->
-              <img th:src="@{/img/product/__${product.getImage()}__}"  alt="My Image" height="120"/>
-            </td>
-            <td th:text="${product.name}"></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product.quantity}"></td>
-<!--            <td th:text="${product.created_at}"></td>-->
-<!--            <td th:text="${product.description}"></td>-->
-              <td th:text="${product.status == 1 ? 'active' : 'unactive'}"></td>
-            <td><a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a></td>
-            <!--    <td><a th:href="@{'/admin/user/delete/' + ${user.getId()}}">Delete</a></td>-->
-          </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- End of Main Content -->
+    <!-- Footer -->
+    <div th:replace="/admin/fragments/_footer :: footer">...</div>
+    <!-- End of Footer -->
     </div>
-  </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" th:href="@{/templates/admin/logout}">Logout</a>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+<!-- Page level plugins -->
+<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<!-- Page level custom scripts -->
+<script th:src="@{/js/demo/chart-area-demo.js}"></script>
+<script th:src="@{/js/demo/chart-pie-demo.js}"></script>
+</body>
+</html>

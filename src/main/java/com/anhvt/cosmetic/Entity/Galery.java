@@ -24,4 +24,6 @@ public class Galery {
 
     @Column(name="thumbnail")
     private String thumbnail;
+
+
 }
