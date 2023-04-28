@@ -32,11 +32,11 @@ public class ProductRestController {
                                 ,@RequestParam(name = "sz",defaultValue = "3") int size
 //                                ,@RequestParam(name = "sortBy",defaultValue = "price") String sort
     ) {
-        Iterable<Product> products = productService.findAll(page, size
+        Iterable<Product> products = productService.findAllREST(page, size
 //                , sort
         );
         if(q.isPresent()){
-            products = productService.findByNameContaining(q.get());
+            products = productService.findByNameContainingREST(q.get());
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

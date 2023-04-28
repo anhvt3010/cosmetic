@@ -1,5 +1,6 @@
 package com.anhvt.cosmetic.Service;
 
+import com.anhvt.cosmetic.DTO.ProductDTO;
 import com.anhvt.cosmetic.Entity.Product;
 import com.anhvt.cosmetic.Repository.ProductRepository;
 import lombok.Getter;
@@ -10,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static com.anhvt.cosmetic.Mapper.ProductConverter.convertToProductDTO;
+import static com.anhvt.cosmetic.Mapper.ProductConverter.convertToProductDTOs;
 
 
 @Service
@@ -22,15 +26,26 @@ public class ProductService {
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-    public Iterable<Product> findAll(Integer pageNo, Integer pageSize
+    public Iterable<ProductDTO> findAll(Integer pageNo, Integer pageSize
 //            , String sortBy
     ){
         Pageable paging = PageRequest.of(pageNo, pageSize
 //                , Sort.by(sortBy)
         );
-        Page<Product> productPage = productRepository.findAll(paging);
-        if(productPage.hasContent()) {
-            return productPage.getContent();
+        Page<Product> productPages = productRepository.findAll(paging);
+        Iterable<ProductDTO> productDTOS = convertToProductDTOs(productPages);
+        if(productPages.hasContent()) {
+            return productDTOS;
+        } else {
+            return null;
+        }
+    }
+
+    public Iterable<Product> findAllREST(Integer pageNo, Integer pageSize){
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<Product> productPages = productRepository.findAll(paging);
+        if(productPages.hasContent()) {
+            return productPages;
         } else {
             return null;
         }
@@ -39,7 +54,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Iterable<Product> findByNameContaining(String q){
+    public Iterable<ProductDTO> findByNameContaining(String q){
+        return convertToProductDTOs(productRepository.findByNameContaining(q));
+    }
+    public Iterable<Product> findByNameContainingREST(String q){
         return productRepository.findByNameContaining(q);
     }
 //    public Iterable<Product> findProductByPrice(Float min, Float max){

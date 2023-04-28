@@ -6,7 +6,7 @@
             <div class="product-imgs">
                 <div class="img-display">
                     <div class="img-showcase">
-                        <img th:src="@{/img/product/__${product.get().getImage()}__}">
+                        <img th:src="@{/img/product/__${product.getImage()}__}">
                         <tr th:each="galery : ${galeries}">
                             <td>
                                 <img th:src="@{/img/product/__${galery.getThumbnail()}__}"/>
@@ -17,7 +17,7 @@
                 <div class="img-select">
                     <div class="img-item">
                         <a href="#" data-id="1">
-                            <img th:src="@{/img/product/__${product.get().getImage()}__}">
+                            <img th:src="@{/img/product/__${product.getImage()}__}">
                         </a>
                     </div>
                     <div class="img-item" th:each="galery,stt : ${galeries}">
@@ -92,7 +92,7 @@
                         <label class="col-form-label">Created At:</label>
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" th:value="${time}" disabled>
+                        <input type="text" class="form-control" th:field="*{created_at}" disabled>
                     </div>
                 </div>
                 <div class="row mb-3">

@@ -24,7 +24,7 @@ public class FeedbackController {
 
     @RequestMapping("/list")
     public ModelAndView getAll(@RequestParam(defaultValue = "0") int page){
-        Pageable pageable = PageRequest.of(page, 1, Sort.by("created"));
+        Pageable pageable = PageRequest.of(page, 2, Sort.by("created"));
         ModelAndView modelAndView = new ModelAndView("admin/feedback/list");
         Page<Feedback> feedbacks = feedBackService.findAll(pageable);
         Iterable<FeedbackDTO> feedbackDTOS = convertToFeedbackDTOs(feedbacks);

@@ -1,6 +1,7 @@
 package com.anhvt.cosmetic.Controller;
 
 
+import com.anhvt.cosmetic.DTO.ProductDTO;
 import com.anhvt.cosmetic.Entity.Category;
 import com.anhvt.cosmetic.Entity.Galery;
 import com.anhvt.cosmetic.Entity.Product;
@@ -10,11 +11,16 @@ import com.anhvt.cosmetic.Service.GaleryService;
 import com.anhvt.cosmetic.Service.ProductService;
 import com.anhvt.cosmetic.Utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
+
+import static com.anhvt.cosmetic.Mapper.ProductConverter.convertToProductDTO;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -34,9 +40,11 @@ public class ProductController {
     }
 
     @RequestMapping("/list")
-    public ModelAndView list(@RequestParam(name = "q") Optional<String> q ){
+    public ModelAndView list(@RequestParam(name = "q") Optional<String> q
+                             ,@RequestParam(defaultValue = "0") int page){
         ModelAndView mav = new ModelAndView("admin/product/list");
-        Iterable<Product> products = productService.findAll();
+//        Pageable pageable = PageRequest.of(page, 5);
+        Iterable<ProductDTO> products = productService.findAll(page, 5);
         if(q.isPresent()){
             products = productService.findByNameContaining(q.get());
         }
@@ -93,16 +101,15 @@ public class ProductController {
     @RequestMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("admin/product/edit");
-        Optional<Product> product = productService.findbyID(id);
-        if (product.isPresent()){
+        Optional<Product> optionalProduct = productService.findbyID(id);
+        if (optionalProduct.isPresent()){
+            ProductDTO product = convertToProductDTO(optionalProduct.get());
             modelAndView.addObject("product", product);
-            String time = Convert.TimestampToDate(product.get().getCreated_at());
-            modelAndView.addObject("time", time);
 
             Iterable<Category> Categories = categoryService.findByChild();
             modelAndView.addObject("Categories",Categories);
 
-            long category = product.get().getCategory().getId();
+            long category = product.getCategory().getId();
             modelAndView.addObject("selected",category);
 
             Iterable<Galery> galeries = galeryService.findByProduct(id);

@@ -12,7 +12,7 @@
     <title>AnhTuan - Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
     <link rel="shortcut icon" href="//cdn.perfmatters.io/favicon.ico" type="image/x-icon" />
 
@@ -38,21 +38,35 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-            <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                For more information about DataTables, please visit the
-                <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+            <h1 class="h3 mb-2 text-gray-800">List Products</h1>
+<!--            <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.-->
+<!--                For more information about DataTables, please visit the-->
+<!--                <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>-->
 
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">List Products</h6>
-                    <form th:action="@{/admin/products/create}" method="get">
-                        <button type="submit" class="btn btn-success">New Product</button>
-                    </form>
-                </div>
                 <div class="card-body">
                     <div class="table-responsive">
+                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="dataTable_length">
+                                        <label>
+                                            <form th:action="@{/admin/products/create}" method="get">
+                                                <button type="submit" class="btn btn-success">New Product</button>
+                                            </form>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
+                                    <div id="dataTable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input type="search" class="form-control form-control" placeholder="Search..." aria-controls="dataTable">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
