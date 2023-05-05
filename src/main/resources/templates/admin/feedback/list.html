@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>AnhTuan - Dashboard</title>
+
+  <!-- Custom fonts for this template-->
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+  <link rel="shortcut icon" href="//cdn.perfmatters.io/favicon.ico" type="image/x-icon" />
+
+  <!-- Custom styles for this template-->
+  <link rel="stylesheet" type="text/css"
+        th:href="@{/css/sb-admin-2.min.css}">
+
+
+</head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <div th:replace="/admin/fragments/_sidebar :: sidebar">...</div>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <div th:replace="/admin/fragments/_navbar :: navbar">...</div>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">List Feedbacks</h1>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dataTable_length">
+                      <label>
+<!--                        <button type="button" class="btn btn-success">New Blogs</button>-->
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
+                    <div id="dataTable_filter" class="dataTables_filter">
+                      <label>
+                        <input type="search" class="form-control form-control" placeholder="Search..." aria-controls="dataTable">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Content</th>
+                  <th>Email</th>
+                  <th>Created_at</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Content</th>
+                  <th>Email</th>
+                  <th>Created_at</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="feedback : ${feedbacks}">
+                  <td th:text="${feedback.id}"></td>
+                  <td th:text="${feedback.getName()}"></td>
+                  <td th:text="${feedback.getContent()}"></td>
+                  <td th:text="${feedback.getEmail()}"></td>
+                  <td th:text="${feedback.getCreated_at()}"></td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="row">
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                    <ul class="pagination">
+                      <li class="paginate_button page-item previous" id="dataTable_previous"
+                          th:class="${currentPage == 0 ? 'disabled' : ''}">
+                        <a aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link"
+                           th:if="${currentPage > 0}" th:href="@{/admin/feedbacks/list(page=0)}">First</a>
+                      </li>
+
+                      <li class="paginate_button page-item " th:each="numpage : ${#numbers.sequence( 1, totalPages)}">
+                        <a th:text="${numpage} + '&nbsp;'" th:href="@{/admin/feedbacks/list(page=${numpage - 1})}" aria-controls="dataTable" data-dt-idx="1" tabindex="0"
+                           class="page-link">
+                        </a>
+                      </li>
+
+                      <li class="paginate_button page-item next" id="dataTable_next"
+                          th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                        <a aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link"
+                           th:if="${currentPage < totalPages - 1}" th:href="@{/admin/feedbacks/list(page=${totalPages - 1})}">Last</a>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-5">
+                  <div class="dataTables_info" id="dataTable_info" role="status"
+                       aria-live="polite">Showing <span th:text="${currentPage}+1"></span> of <span th:text="${totalPages}"></span>  pages
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+    <!-- Footer -->
+    <div th:replace="/admin/fragments/_footer :: footer">...</div>
+    <!-- End of Footer -->
+  </div>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" th:href="@{/templates/admin/logout}">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+<!-- Page level plugins -->
+<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+<!-- Page level custom scripts -->
+<script th:src="@{/js/demo/chart-area-demo.js}"></script>
+<script th:src="@{/js/demo/chart-pie-demo.js}"></script>
+</body>
+</html>
