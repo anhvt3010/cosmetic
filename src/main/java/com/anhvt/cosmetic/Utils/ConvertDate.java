@@ -2,7 +2,7 @@ package com.anhvt.cosmetic.Utils;
 
 import java.util.Date;
 
-public class Convert {
+public class ConvertDate {
     public static String DateToTimestamp(Date date){
         Long time = date.getTime()/1000;
         return time.toString();

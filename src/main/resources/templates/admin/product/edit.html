@@ -109,14 +109,26 @@
                         </label>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col mr-auto">
-                        <button id="enable-fields-button" class="btn btn-success">EDIT</button>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_length" id="dataTable_length">
+                            <label>
+                                <a th:href="@{/admin/products/list}" class="btn btn-danger">Back To List</a>
+                            </label>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <button id="fields-button" class="btn btn-danger">Save</button>
+                    <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
+                        <div class="row mb-3">
+                            <div class="col mr-auto">
+                                <button id="enable-fields-button" class="btn btn-success">EDIT</button>
+                            </div>
+                            <div class="col-auto">
+                                <button id="fields-button" class="btn btn-danger">Save</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
         </form>

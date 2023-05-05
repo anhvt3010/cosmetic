@@ -24,7 +24,18 @@
                 <input type="text" th:field="*{description}" id="description" />
                 <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></p>
             </div>
-            <input type="submit" value="add new Category" />
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dataTable_length">
+                        <label>
+                            <a th:href="@{/admin/categories/list}" class="btn btn-danger">Back To List</a>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
+                    <input type="submit" value="add new Category" />
+                </div>
+            </div>
         </div>
     </form>
 </body>

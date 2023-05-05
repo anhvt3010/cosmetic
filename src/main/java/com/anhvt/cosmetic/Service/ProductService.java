@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.anhvt.cosmetic.Mapper.ProductConverter.convertToProductDTO;
-import static com.anhvt.cosmetic.Mapper.ProductConverter.convertToProductDTOs;
+import static com.anhvt.cosmetic.Mapper.ProductMapper.convertToProductDTOs;
 
 
 @Service
@@ -26,16 +26,10 @@ public class ProductService {
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-    public Iterable<ProductDTO> findAll(Integer pageNo, Integer pageSize
-//            , String sortBy
-    ){
-        Pageable paging = PageRequest.of(pageNo, pageSize
-//                , Sort.by(sortBy)
-        );
+    public Page<Product> findAll(Pageable paging){
         Page<Product> productPages = productRepository.findAll(paging);
-        Iterable<ProductDTO> productDTOS = convertToProductDTOs(productPages);
         if(productPages.hasContent()) {
-            return productDTOS;
+            return productPages;
         } else {
             return null;
         }
@@ -54,8 +48,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Iterable<ProductDTO> findByNameContaining(String q){
-        return convertToProductDTOs(productRepository.findByNameContaining(q));
+    public Iterable<Product> findByNameContaining(String q){
+        return productRepository.findByNameContaining(q);
     }
     public Iterable<Product> findByNameContainingREST(String q){
         return productRepository.findByNameContaining(q);

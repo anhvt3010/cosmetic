@@ -1,6 +1,7 @@
 package com.anhvt.cosmetic.Service;
 
 import com.anhvt.cosmetic.Entity.Feedback;
+import com.anhvt.cosmetic.Entity.Order;
 import com.anhvt.cosmetic.Repository.FeedBackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +23,9 @@ public class FeedBackService implements IService<Feedback> {
     }
 
     @Override
-    public void save(Feedback feedback){
+    public Order save(Feedback feedback){
         feedBackRepository.save(feedback);
+        return null;
     }
 
     public Iterable<Feedback> findAll(Integer pageNo, Integer pageSize, String sort){

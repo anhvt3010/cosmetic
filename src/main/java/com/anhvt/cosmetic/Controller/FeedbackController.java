@@ -9,12 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.anhvt.cosmetic.Mapper.FeedbackConverter.*;
+import static com.anhvt.cosmetic.Mapper.FeedbackMapper.*;
 
 @Controller
 @RequestMapping("/admin/feedbacks")

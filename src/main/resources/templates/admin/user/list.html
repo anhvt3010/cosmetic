@@ -95,7 +95,7 @@
                   <td th:text="${user.phone}"></td>
                   <td th:text="${user.email}"></td>
                   <td th:text="${user.created_at}"></td>
-                  <td th:text="${user.status}"></td>
+                  <td th:text="${user.status == 1 ? 'active' : 'unactive'}"></td>
                   <!--    <td><a th:href="@{'/admin/user/edit/' + ${user.getId()}}">Edit</a></td>-->
                   <!--    <td><a th:href="@{'/admin/user/delete/' + ${user.getId()}}">Delete</a></td>-->
                 </tr>

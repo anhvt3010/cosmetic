@@ -75,8 +75,6 @@
                                 <th>Product name</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
-                                <!--            <th>Created_at</th>-->
-                                <!--            <th>Description</th>-->
                                 <th>Status</th>
                             </tr>
                             </thead>
@@ -87,8 +85,6 @@
                                 <th>Product name</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
-                                <!--            <th>Created_at</th>-->
-                                <!--            <th>Description</th>-->
                                 <th>Status</th>
                             </tr>
                             </tfoot>
@@ -96,20 +92,41 @@
                             <tr th:each="product : ${products}">
                                 <td th:text="${product.id}"></td>
                                 <td style="width: 100px; height: 130px;">
-                                    <!--              th:src="@{/image/__${product.getImage()}__}"-->
                                     <img th:src="@{/img/product/__${product.getImage()}__}"  alt="My Image" height="120"/>
                                 </td>
                                 <td th:text="${product.name}"></td>
                                 <td th:text="${product.price}"></td>
                                 <td th:text="${product.quantity}"></td>
-                                <!--            <td th:text="${product.created_at}"></td>-->
-                                <!--            <td th:text="${product.description}"></td>-->
                                 <td th:text="${product.status == 1 ? 'active' : 'unactive'}"></td>
                                 <td><a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a></td>
-                                <!--    <td><a th:href="@{'/admin/user/delete/' + ${user.getId()}}">Delete</a></td>-->
                             </tr>
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous" id="dataTable_previous"
+                                            th:class="${currentPage == 0 ? 'disabled' : ''}">
+                                            <a aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link"
+                                               th:if="${currentPage > 0}" th:href="@{/admin/products/list(page=0)}">First</a>
+                                        </li>
+
+                                        <li class="paginate_button page-item " th:each="numpage : ${#numbers.sequence( 1, totalPages)}">
+                                            <a th:text="${numpage} + '&nbsp;'" th:href="@{/admin/products/list(page=${numpage - 1})}" aria-controls="dataTable" data-dt-idx="1" tabindex="0"
+                                               class="page-link">
+                                            </a>
+                                        </li>
+
+                                        <li class="paginate_button page-item next" id="dataTable_next"
+                                            th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                                            <a aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link"
+                                               th:if="${currentPage < totalPages - 1}" th:href="@{/admin/products/list(page=${totalPages - 1})}">Last</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

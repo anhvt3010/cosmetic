@@ -1,80 +1,174 @@
-<div class="container-fluid">
-  <div class="card-wrapper">
-    <form th:action="@{admin/category/edit}" method="post" th:object="${category}" novalidate="novalidate">
-        <div class = "product-content">
-            <div class="row mb-3">
-                <div class="col-auto">
-                    <label class="col-form-label">Name:</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" th:field="*{name}"
-                           id="name" disabled="disabled">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-auto">
-                    <label class="form-label" for="pname">Parent Category:</label>
-                </div>
-                <div class="col">
-                    <select class="form-control" id="pname" disabled="disabled">
-                        <option th:each="category: ${pCategories}"
-                                th:value="${category.getParent_id()}"
-                                th:text="${category.getName()}"
-                                th:selected="${category.getId().longValue() == parentCategory.longValue()}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-auto">
-                    <label class="col-form-label">Status:</label>
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" th:field="*{status}">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-                    <label class="toggle">
-                        <input type="checkbox">
-                        <span class="slider"></span>
-                        <span class="labels" data-on="ON" data-off="OFF"></span>
-                    </label>
+    <title>AnhTuan - Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+    <link rel="shortcut icon" href="//cdn.perfmatters.io/favicon.ico" type="image/x-icon"/>
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/css/sb-admin-2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/toggle-button.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+
+
+</head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="/admin/fragments/_sidebar :: sidebar">...</div>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <div th:replace="/admin/fragments/_navbar :: navbar">...</div>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <div class="card-wrapper ">
+                    <form th:action="@{admin/category/edit}" method="post" th:object="${category}"
+                          novalidate="novalidate">
+                        <div class="product-content">
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label class="col-form-label">Name:</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" th:field="*{name}"
+                                           id="name" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label class="form-label" for="pname">Parent Category:</label>
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" id="pname" disabled="disabled">
+                                        <option th:each="category: ${pCategories}"
+                                                th:value="${category.getParent_id()}"
+                                                th:text="${category.getName()}"
+                                                th:selected="${category.getId().longValue() == parentCategory.longValue()}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label class="col-form-label">Status:</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" th:field="*{status}">
+
+                                    <label class="toggle">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                        <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="dataTable_length">
+                                        <label>
+                                            <a th:href="@{/admin/categories/list}" class="btn btn-danger">Back To List</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
+                                    <div class="row mb-3">
+                                        <div class="col mr-auto">
+                                            <button id="enable-fields-button" class="btn btn-success">EDIT</button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button id="fields-button" class="btn btn-danger">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col mr-auto">
-                    <button id="enable-fields-button" class="btn btn-success">EDIT</button>
-                </div>
-                <div class="col-auto">
-                    <button id="fields-button" class="btn btn-danger">Save</button>
-                </div>
+
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+        <!-- Footer -->
+        <div th:replace="/admin/fragments/_footer :: footer">...</div>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" th:href="@{/templates/admin/logout}">Logout</a>
             </div>
         </div>
-    </form>
-
-  </div>
+    </div>
 </div>
 
-<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-      rel="stylesheet">
-<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}">
-<link rel="stylesheet" th:href="@{/css/product/product-edit.css}">
-<link rel="stylesheet" th:href="@{/css/toggle-button.css}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-      crossorigin="anonymous"/>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
 <script th:src="@{/js/product/product-edit.js}"></script>
 <script>
-  const name = document.querySelector('#name');
-  const pname = document.querySelector('#pname');
+    const name = document.querySelector('#name');
+    const pname = document.querySelector('#pname');
 
-  const enableFieldsButton = document.querySelector('#enable-fields-button');
+    const enableFieldsButton = document.querySelector('#enable-fields-button');
 
-  enableFieldsButton.addEventListener('click', enableFields);
+    enableFieldsButton.addEventListener('click', enableFields);
 
-  function enableFields() {
-    name.removeAttribute('disabled');
-    pname.removeAttribute('disabled');
+    function enableFields() {
+        name.removeAttribute('disabled');
+        pname.removeAttribute('disabled');
 
-    enableFieldsButton.setAttribute('disabled', true);
-  }
+        enableFieldsButton.setAttribute('disabled', true);
+    }
 </script>
+</body>
+</html>
