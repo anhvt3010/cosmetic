@@ -35,7 +35,7 @@ public class CategoryController {
         Optional<Category> optionalCategory = categoryService.findByID(id);
         Iterable<Category> pCategories = categoryService.findByParent();
         if (optionalCategory.isPresent()) {
-            modelAndView.addObject("category", optionalCategory);
+            modelAndView.addObject("category", optionalCategory.get());
             if (optionalCategory.get().getParent_id() != 0) {
                 Optional<Category> pCategory = categoryService.findByParentID(optionalCategory.get().getParent_id());
                 if (pCategory.isPresent()) {

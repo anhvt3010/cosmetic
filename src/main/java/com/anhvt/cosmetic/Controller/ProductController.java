@@ -2,7 +2,9 @@ package com.anhvt.cosmetic.Controller;
 
 
 import com.anhvt.cosmetic.DTO.ProductDTO;
+import com.anhvt.cosmetic.Entity.Blog;
 import com.anhvt.cosmetic.Entity.Category;
+import com.anhvt.cosmetic.Entity.Galery;
 import com.anhvt.cosmetic.Entity.Product;
 import com.anhvt.cosmetic.Form.ProductForm;
 import com.anhvt.cosmetic.Service.CategoryService;
@@ -99,8 +101,8 @@ public class ProductController {
         return "redirect:/admin/products/list";
     }
 
-    @RequestMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable Long id){
+    @RequestMapping("/detail/{id}")
+    public ModelAndView detail(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("admin/product/edit");
         Optional<Product> optionalProduct = productService.findbyID(id);
         if (optionalProduct.isPresent()){
@@ -120,6 +122,18 @@ public class ProductController {
             return modelAndView;
         }
         return new ModelAndView("admin/404");
+    }
+    @RequestMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Long id, @ModelAttribute("product") Product updateProduct){
+        Product product = productService.findbyID(id).get();
+        product.setName(updateProduct.getName());
+        product.setPrice(updateProduct.getPrice());
+        product.setQuantity(updateProduct.getQuantity());
+        product.setDescription(updateProduct.getDescription());
+        product.setStatus(updateProduct.getStatus());
+
+        productService.save(product);
+        return "redirect:/admin/products/list";
     }
 
 //    @GetMapping("/delete/{id}")

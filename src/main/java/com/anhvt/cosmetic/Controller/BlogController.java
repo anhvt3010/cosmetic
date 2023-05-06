@@ -2,14 +2,11 @@ package com.anhvt.cosmetic.Controller;
 
 import com.anhvt.cosmetic.DTO.BlogDTO;
 import com.anhvt.cosmetic.Entity.Blog;
-import com.anhvt.cosmetic.Entity.Product;
 import com.anhvt.cosmetic.Form.BlogForm;
-import com.anhvt.cosmetic.Form.ProductForm;
 import com.anhvt.cosmetic.Service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -88,7 +85,7 @@ public class BlogController {
 //    }
     @RequestMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView("admin/blog/detail");
+        ModelAndView modelAndView = new ModelAndView("admin/blog/edit");
         Optional<Blog> blog = blogService.findByID(id);
         if(blog.isPresent()){
             BlogDTO blogDTO = convertToBlogDTO(blog.get());

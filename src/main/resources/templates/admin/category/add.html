@@ -38,33 +38,36 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Add Blog</h1>
-                <form class="row" method="post" th:action="@{/admin/blogs/add}" th:object="${blog}" enctype="multipart/form-data">
-                    <div class="col-sm-6">
-                        <div class="form-group mb-3">
-                            <label for="title">Blog Title </label>
-                            <input id="title" name="title" type="text" th:field="*{title}" class="form-control validate" required/>
+                <h1 class="h3 mb-2 text-gray-800">Add Category</h1>
+                <form  th:object="${category}" th:action="@{/admin/category/save}" method="post">
+                    <div class="container">
+                        <div class="row">
+                            <label for="name">Category Name</label>
+                            <input type="text" th:field="*{name}" id="name" />
+                            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></p>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="content-blog" >Content</label>
-                            <textarea id="content-blog" class="form-control validate" th:field="*{content}" rows="8" required></textarea>
+                        <div class="row">
+                            <label for="parentId">parentId</label>
+                            <input type="text" th:field="*{parentId}" id="parentId" />
+                            <p th:if="${#fields.hasErrors('parentId')}" th:errors="*{parentId}" class="error"></p>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                            <div class="tm-product-img-dummy mx-auto">
-                                <img class="mx-auto" id="imagePreview" src="https://via.placeholder.com/300" alt="Image preview" width="300" height="300"
-                                     onclick="document.getElementById('fileInput').click();">
+                        <div class="row">
+                            <label for="description">Description</label>
+                            <input type="text" th:field="*{description}" id="description" />
+                            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="dataTable_length">
+                                    <label>
+                                        <a th:href="@{/admin/categories/list}" class="btn btn-danger">Back To List</a>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="custom-file mt-3 mb-3">
-                                <input id="fileInput" type="file" style="display:none;" th:field="*{image}" onchange="previewImage(this);" multiple/>
-                                <input type="button" class="btn btn-primary btn-block mx-auto" value="UPLOAD PRODUCT IMAGE"
-                                       onclick="document.getElementById('fileInput').click();" />
+                            <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
+                                <input type="submit" value="add new Category" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Blog Now</button>
                     </div>
                 </form>
             </div>

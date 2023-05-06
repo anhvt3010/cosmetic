@@ -6,11 +6,21 @@ package com.anhvt.cosmetic.Controller;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
 
+import com.anhvt.cosmetic.Entity.User;
+import com.anhvt.cosmetic.Entity.UserDetail;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -34,36 +44,36 @@ public class HomeController {
         return "redirect:/admin/views/forgot_password";
     }
 
-//        @RequestMapping(value = "/login",method = RequestMethod.GET)
-//        public String login(){
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            if(authentication.getPrincipal() instanceof UserDetails) return "redirect:/admin/home";
-//            else return "/login";
-//        }
-//        @RequestMapping(value = "/logout", method = RequestMethod.GET)
-//        public String logout(SessionStatus session) {
-//            SecurityContextHolder.getContext().setAuthentication(null);
-//            session.setComplete();
-//            return "redirect:/admin/home";
-//        }
-//        @RequestMapping(value = "/welcome",method = RequestMethod.GET)
-//        public String loginWelcome(Model model, HttpSession session){
-//            UsernamePasswordAuthenticationToken authentication
-//                    = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-//            User userInfo = ((UserDetail) authentication.getPrincipal()).getUserDetails();
-//            model.addAttribute("currentUser", userInfo.getUsername());
-//            session.setAttribute("userId", userInfo.getId());
-//            return "admin/welcome";
-//        }
-//        @RequestMapping(value = "/redirect",method = RequestMethod.POST)
-//        public String loginWelcome(){
-//            return "redirect:/admin/home";
-//        }
-//        private void validatePrinciple(Object principal) {
-//            if (!(principal instanceof UserDetail)) {
-//                throw new  IllegalArgumentException("Principal can not be null!");
-//            }
-//        }
+        @RequestMapping(value = "/login",method = RequestMethod.GET)
+        public String login(){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication.getPrincipal() instanceof UserDetails) return "redirect:/admin/home";
+            else return "admin/login";
+        }
+        @RequestMapping(value = "/logout", method = RequestMethod.GET)
+        public String logout(SessionStatus session) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+            session.setComplete();
+            return "redirect:/admin/login";
+        }
+        @RequestMapping(value = "/welcome",method = RequestMethod.GET)
+        public String loginWelcome(Model model, HttpSession session){
+            UsernamePasswordAuthenticationToken authentication
+                    = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+            User userInfo = ((UserDetail) authentication.getPrincipal()).getUserDetails();
+            model.addAttribute("currentUser", userInfo.getUsername());
+            session.setAttribute("userId", userInfo.getId());
+            return "admin/welcome";
+        }
+        @RequestMapping(value = "/redirect",method = RequestMethod.POST)
+        public String loginWelcome(){
+            return "redirect:/admin/home";
+        }
+        private void validatePrinciple(Object principal) {
+            if (!(principal instanceof UserDetail)) {
+                throw new  IllegalArgumentException("Principal can not be null!");
+            }
+        }
 }
 
 

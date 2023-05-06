@@ -1,150 +1,196 @@
-<div class="container-fluid">
-    <div class="card-wrapper">
-        <form th:action="@{admin/product/edit}" method="post" th:object="${product}" novalidate="novalidate">
-        <div class="card">
-            <!-- card left -->
-            <div class="product-imgs">
-                <div class="img-display">
-                    <div class="img-showcase">
-                        <img th:src="@{/img/product/__${product.getImage()}__}">
-                        <tr th:each="galery : ${galeries}">
-                            <td>
-                                <img th:src="@{/img/product/__${galery.getThumbnail()}__}"/>
-                            </td>
-                        </tr>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Edit Product</title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+    <link rel="shortcut icon" href="//cdn.perfmatters.io/favicon.ico" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/product/product-edit.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/toggle-button.css}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/css/sb-admin-2.min.css}">
+
+
+</head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+<!-- Sidebar -->
+<div th:replace="/admin/fragments/_sidebar :: sidebar">...</div>
+<!-- End of Sidebar -->
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+<!-- Main Content -->
+<div id="content">
+    <!-- Topbar -->
+    <div th:replace="/admin/fragments/_navbar :: navbar">...</div>
+    <!-- End of Topbar -->
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <h1 class="h3 mb-2 text-gray-800" th:text="${'Product Edit #'+ product.getId()}"></h1>
+        <form th:action="@{/admin/products/edit/{id}(id=${product.id})}" method="post" th:object="${product}" novalidate="novalidate">
+        <!-- DataTales Example -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label for="product-name" class="form-label">Product Name:</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="product-name"
+                                           th:field="*{name}" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label class="form-label" for="product-category">Category</label>
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" id="product-category" disabled="disabled">
+                                        <option th:each="category: ${Categories}"
+                                                th:value="${category.getId()}"
+                                                th:text="${category.getName()}"
+                                                th:selected="${category.getId().longValue() == selected}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label for="product-price" class="form-label">Price:</label>
+                                </div>
+                                <div class="col">
+                                    <input name="product" type="text" class="form-control" id="product-price"
+                                           th:field="*{price}" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label for="product-quantity" class="form-label">Quantity:</label>
+                                </div>
+                                <div class="col">
+                                    <input name="product" type="number" class="form-control" id="product-quantity"
+                                           th:field="*{quantity}" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="product-detail">
+                                <div class="row mb-3">
+                                    <label for="product-description" class="form-label">Description:</label>
+                                    <textarea name="product" rows="7"  class="form-control" id="product-description"
+                                              th:field="*{description}" disabled="disabled"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label class="col-form-label">Created At:</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" th:field="*{created_at}" disabled>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-auto">
+                                    <label class="col-form-label">Status:</label>
+                                </div>
+                                <div class="col">
+                                    <label class="toggle">
+                                        <input type="checkbox" class="form-control" id="status" disabled="disabled"
+                                               th:checked="${product.status == 1}" th:value="${product.status}">
+                                        <span class="slider"></span>
+                                        <span class="labels" data-on="ON" data-off="OFF"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="img-select">
-                    <div class="img-item">
-                        <a href="#" data-id="1">
-                            <img th:src="@{/img/product/__${product.getImage()}__}">
-                        </a>
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <!-- ảnh chính -->
+                        <div class="card-body">
+                            <img th:src="@{/img/product/__${product.getImage()}__}" style="width:200px">
+                        </div>
                     </div>
-                    <div class="img-item" th:each="galery,stt : ${galeries}">
-                        <a href="#" th:attr="data-id=${stt.count+1}">
-                            <img th:src="@{/img/product/__${galery.getThumbnail()}__}"/>
-                        </a>
+                    <div class="card mb-4">
+                        <!-- list ảnh nhỏ -->
+                        <div class="card-body">
+                            <div th:each="galery,stt : ${galeries}" class="d-flex flex-row flex-nowrap overflow-auto">
+                                <img class="card card-block mx-2" th:src="@{/img/product/__${galery.getThumbnail()}__}"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- card right -->
-            <div class="product-content">
+            <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="dataTable_length">
+                    <label>
+                        <a th:href="@{/admin/products/list}" class="btn btn-danger">Back To List</a>
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
                 <div class="row mb-3">
+                    <div class="col mr-auto">
+                        <button id="enable-fields-button" class="btn btn-success">EDIT</button>
+                    </div>
                     <div class="col-auto">
-                        <label for="product-name" class="form-label">Product Name:</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" id="product-name"
-                           th:field="*{name}" disabled="disabled">
+                        <button id="fields-button" type="submit" class="btn btn-danger">Save</button>
                     </div>
                 </div>
-
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <label class="form-label" for="product-category">Category</label>
-                    </div>
-                    <div class="col">
-                        <select class="form-control" id="product-category" disabled="disabled">
-                            <option th:each="category: ${Categories}"
-                                    th:value="${category.getId()}"
-                                    th:text="${category.getName()}"
-                                    th:selected="${category.getId().longValue() == selected}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <label for="product-price" class="form-label">Price:</label>
-                    </div>
-                    <div class="col">
-                        <input name="product" type="text" class="form-control" id="product-price"
-                               th:field="*{price}" disabled="disabled">
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <label for="product-quantity" class="form-label">Quantity:</label>
-                    </div>
-                    <div class="col">
-                        <input name="product" type="number" class="form-control" id="product-quantity"
-                               th:field="*{quantity}" disabled="disabled">
-                    </div>
-                </div>
-<!--                <div class="mb-3">-->
-<!--                    <label for="product-quantity" class="form-label">Category:</label>-->
-<!--                    <input name="product" type="number" class="form-control" id="product-quantity"-->
-<!--                           th:field="*{category.name}" disabled="disabled">-->
-<!--                </div>-->
-
-                <div class="product-detail">
-                    <div class="row mb-3">
-                        <label for="product-description" class="form-label">Description:</label>
-                        <textarea name="product" rows="7"  class="form-control" id="product-description"
-                                  th:field="*{description}" disabled="disabled"></textarea>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <label class="col-form-label">Created At:</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" th:field="*{created_at}" disabled>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <label class="col-form-label">Status:</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" th:field="*{status}">
-
-                        <label class="toggle">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                            <span class="labels" data-on="ON" data-off="OFF"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <div class="dataTables_length" id="dataTable_length">
-                            <label>
-                                <a th:href="@{/admin/products/list}" class="btn btn-danger">Back To List</a>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6" style="text-align: right; display: block;">
-                        <div class="row mb-3">
-                            <div class="col mr-auto">
-                                <button id="enable-fields-button" class="btn btn-success">EDIT</button>
-                            </div>
-                            <div class="col-auto">
-                                <button id="fields-button" class="btn btn-danger">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
         </form>
-
     </div>
-</div>
 
-<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-      rel="stylesheet">
-<link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}">
-<link rel="stylesheet" th:href="@{/css/product/product-edit.css}">
-<!--<link rel="stylesheet" th:href="@{/css/toggle-button.css}">-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-      crossorigin="anonymous"/>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<div th:replace="/admin/fragments/_footer :: footer">...</div>
+<!-- End of Footer -->
+</div>
+<!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+<!-- Logout Modal-->
+<div th:replace="/admin/fragments/_logout :: logout">...</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
 <script th:src="@{/js/product/product-edit.js}"></script>
 <script>
     const name = document.querySelector('#product-name');
@@ -152,7 +198,7 @@
     const quantity = document.querySelector('#product-quantity');
     const description = document.querySelector('#product-description');
     const category = document.querySelector('#product-category');
-
+    const status = document.querySelector('#status');
 
     const enableFieldsButton = document.querySelector('#enable-fields-button');
 
@@ -164,7 +210,10 @@
         quantity.removeAttribute('disabled');
         description.removeAttribute('disabled');
         category.removeAttribute('disabled');
+        status.removeAttribute('disabled')
 
         enableFieldsButton.setAttribute('disabled', true);
     }
 </script>
+</body>
+</html>
